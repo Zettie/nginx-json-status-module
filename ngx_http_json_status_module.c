@@ -177,10 +177,10 @@ static ngx_int_t ngx_http_status_handler(ngx_http_request_t *r)
     }
 
     /* Build response */
-    size = sizeof("{active:,") + NGX_ATOMIC_T_LEN
-           + sizeof("accepts:,handled:,requests:,") - 1
+    size = sizeof("{\"active\":,") + NGX_ATOMIC_T_LEN
+           + sizeof("\"accepts\":,\"handled\":,\"requests\":,") - 1
            + 6 + 3 * NGX_ATOMIC_T_LEN
-           + sizeof("reading:,writing:,waiting:}") + 3 * NGX_ATOMIC_T_LEN;
+           + sizeof("\"reading\":,\"writing\":,\"waiting\":}") + 3 * NGX_ATOMIC_T_LEN;
 
     if(ngx_strlen(cb.data) > 0){
 	size += sizeof(cb.data) + sizeof("();") + NGX_ATOMIC_T_LEN;
@@ -204,11 +204,11 @@ static ngx_int_t ngx_http_status_handler(ngx_http_request_t *r)
     if(ngx_strlen(cb.data) > 0){
 	b->last = ngx_sprintf(b->last, "%s(", cb.data);
     }
-    b->last = ngx_sprintf(b->last, "{active:%uA,", ac);
+    b->last = ngx_sprintf(b->last, "{\"active\":%uA,", ac);
 
-    b->last = ngx_sprintf(b->last, "accepts:%uA,handled:%uA,requests:%uA,", ap, hn, rq);
+    b->last = ngx_sprintf(b->last, "\"accepts\":%uA,\"handled\":%uA,\"requests\":%uA,", ap, hn, rq);
 
-    b->last = ngx_sprintf(b->last, "reading:%uA,writing:%uA,waiting:%uA}",
+    b->last = ngx_sprintf(b->last, "\"reading\":%uA,\"writing\":%uA,\"waiting\":%uA}",
                           rd, wr, ac - (rd + wr));
 
     if(ngx_strlen(cb.data) > 0){
